@@ -1,0 +1,35 @@
+{
+   "compilerOptions": {
+      "target": "es2017",
+      "module": "commonjs",
+      "allowJs": false,
+      "sourceMap": true,
+      "outDir": "./lib",
+      "rootDir": "./src",
+      "removeComments": false,
+      "strict": true,
+      "alwaysStrict": true,
+      "moduleResolution": "node",
+      "noImplicitAny": true,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "noImplicitThis": true,
+      "noFallthroughCasesInSwitch": true,
+      "noUnusedLocals": true,
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "noUnusedParameters": false,
+      "strictBindCallApply": true,
+      "strictPropertyInitialization": true,
+      "esModuleInterop": true,
+      "declaration": true,
+      "resolveJsonModule": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "baseUrl": ".",
+      "paths": {
+         "*": ["node_modules/*"]
+      }
+   },
+   "exclude": ["node_modules", "lib"]
+}

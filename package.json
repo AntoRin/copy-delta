@@ -1,0 +1,36 @@
+{
+   "name": "copy-delta",
+   "version": "0.0.1",
+   "description": "Copy left-over files from a directory",
+   "main": "lib/index.js",
+   "preferGlobal": true,
+   "bin": {
+      "copy-delta": "./bin/cli",
+      "copyd": "./bin/cli",
+      "copyD": "./bin/cli"
+   },
+   "scripts": {
+      "build": "rm -rf lib && tsc"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/AntoRin/copy-delta.git"
+   },
+   "author": "AntoRin",
+   "license": "MIT",
+   "bugs": {
+      "url": "https://github.com/AntoRin/copy-delta/issues"
+   },
+   "homepage": "https://github.com/AntoRin/copy-delta#readme",
+   "dependencies": {
+      "minimist": "^1.2.5",
+      "recursive-copy": "^2.0.13"
+   },
+   "devDependencies": {
+      "@types/minimist": "^1.2.2",
+      "@types/node": "^16.11.9",
+      "nodemon": "^2.0.15",
+      "ts-node": "^10.4.0",
+      "typescript": "^4.5.2"
+   }
+}

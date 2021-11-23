@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+const { main } = require("../lib/index.js");
+
+const commandLineArgs = process.argv.slice(2);
+main(commandLineArgs);
