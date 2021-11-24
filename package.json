@@ -1,27 +1,28 @@
 {
-   "name": "copy-delta",
+   "name": "copydelta",
    "version": "0.0.1",
-   "description": "Copy left-over files from a directory",
+   "description": "Copy delta between two directories",
    "main": "lib/index.js",
    "preferGlobal": true,
    "bin": {
-      "copy-delta": "./bin/cli",
+      "copydelta": "./bin/cli",
       "copyd": "./bin/cli",
       "copyD": "./bin/cli"
    },
    "scripts": {
-      "build": "rm -rf lib && tsc"
+      "build": "rm -rf lib && tsc",
+      "prepublishOnly": "npm run build"
    },
    "repository": {
       "type": "git",
-      "url": "git+https://github.com/AntoRin/copy-delta.git"
+      "url": "git+https://github.com/AntoRin/copydelta.git"
    },
    "author": "AntoRin",
    "license": "MIT",
    "bugs": {
-      "url": "https://github.com/AntoRin/copy-delta/issues"
+      "url": "https://github.com/AntoRin/copydelta/issues"
    },
-   "homepage": "https://github.com/AntoRin/copy-delta#readme",
+   "homepage": "https://github.com/AntoRin/copydelta#readme",
    "dependencies": {
       "minimist": "^1.2.5",
       "recursive-copy": "^2.0.13"
