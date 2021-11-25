@@ -2,6 +2,7 @@ import path from "path";
 import { statSync, readdirSync, existsSync } from "fs";
 import copy from "recursive-copy";
 import { Options } from "./interfaces/Options";
+import chalk from "chalk";
 
 export class CopyDeltaHandler {
    public srcPath: string;
@@ -30,7 +31,7 @@ export class CopyDeltaHandler {
 
    async copyR(src: string, dest: string): Promise<void> {
       await copy(src, dest);
-      if (this.verbose) console.log(`${src} -> ${dest}`);
+      if (this.verbose) console.log(`${chalk.blue(src)} ${chalk.cyanBright("->")} ${chalk.green(dest)}`);
    }
 
    async copyDelta(currentSrcPath: string, currentDestPath: string): Promise<void> {

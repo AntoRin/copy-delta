@@ -2,6 +2,7 @@ import path from "path";
 import minimist, { ParsedArgs } from "minimist";
 import { CopyDeltaHandler } from "./CopyDeltaHandler";
 import { Options } from "./interfaces/Options";
+import { displayHelp } from "./help";
 
 const pkg: any = require("../package.json");
 
@@ -10,7 +11,7 @@ export function main(commandLineArgs: any[]) {
       const parsedArgs: ParsedArgs = minimist<Options>(commandLineArgs);
 
       if (parsedArgs.help || parsedArgs.h) {
-         return console.log("Copy delta between two directories");
+         return displayHelp();
       }
 
       if (parsedArgs.version || parsedArgs.v) {
