@@ -1,6 +1,6 @@
 import path from "path";
 import minimist, { ParsedArgs } from "minimist";
-import { CopyDeltaHandler } from "./CopyDelta";
+import { CopyDeltaHandler } from "./CopyDeltaHandler";
 import { Options } from "./interfaces/Options";
 
 const pkg: any = require("../package.json");
@@ -17,16 +17,24 @@ export function main(commandLineArgs: any[]) {
          return console.log(pkg.version);
       }
 
-      const processOptions: Options = {
-         srcPath: path.resolve(parsedArgs.src || parsedArgs.s),
-         destPath: path.resolve(parsedArgs.dest || parsedArgs.d),
-         verbose: parsedArgs.verbose || parsedArgs.V,
-         exclusions: parsedArgs.exclude || parsedArgs.e ? ((parsedArgs.exclude || parsedArgs.e) as string).split(",") : [],
-      };
+      const params = [...parsedArgs._];
 
-      const copyDeltaHandler: CopyDeltaHandler = new CopyDeltaHandler(processOptions);
+      const destPath = path.resolve(parsedArgs.d || parsedArgs.dest || params.splice(-1)[0]);
 
-      copyDeltaHandler.init();
+      const srcPaths = [
+         ...params.map((p: string) => path.resolve(p)),
+         ...(parsedArgs.src || parsedArgs.s ? [path.resolve(parsedArgs.src || parsedArgs.s)] : []),
+      ];
+
+      const verbose = parsedArgs.verbose || parsedArgs.V;
+
+      const exclusions = parsedArgs.exclude || parsedArgs.e ? ((parsedArgs.exclude || parsedArgs.e) as string).split(",") : [];
+
+      for (const srcPath of srcPaths) {
+         const copyDeltaHandler: CopyDeltaHandler = new CopyDeltaHandler({ srcPath, destPath, verbose, exclusions });
+
+         copyDeltaHandler.init();
+      }
    } catch (error) {
       console.log(error);
       process.exit(1);

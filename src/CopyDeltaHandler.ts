@@ -30,22 +30,22 @@ export class CopyDeltaHandler {
 
    async copyR(src: string, dest: string): Promise<void> {
       await copy(src, dest);
-      if (this.verbose) console.log(`From ${src} to ${dest}`);
+      if (this.verbose) console.log(`${src} -> ${dest}`);
    }
 
    async copyDelta(currentSrcPath: string, currentDestPath: string): Promise<void> {
-      let directoryContents: string[] = [];
+      try {
+         let directoryContents: string[] = [];
 
-      const pathStat = statSync(currentSrcPath);
+         const pathStat = statSync(currentSrcPath);
 
-      if (!pathStat.isDirectory()) {
-         directoryContents.push(currentSrcPath);
-      } else {
-         directoryContents = readdirSync(currentSrcPath);
-      }
+         if (!pathStat.isDirectory()) {
+            directoryContents.push(currentSrcPath);
+         } else {
+            directoryContents = readdirSync(currentSrcPath);
+         }
 
-      for (const item of directoryContents) {
-         try {
+         for (const item of directoryContents) {
             const srcItemPath = path.join(currentSrcPath, item);
             const destItemPath = path.join(currentDestPath, item);
 
@@ -58,10 +58,10 @@ export class CopyDeltaHandler {
             } else {
                await this.copyDelta(srcItemPath, destItemPath);
             }
-         } catch (error) {
-            console.log("error", error);
-            process.exit(1);
          }
+      } catch (error) {
+         console.log("error", error);
+         process.exit(1);
       }
    }
 }
