@@ -1,6 +1,6 @@
 {
    "name": "copydelta",
-   "version": "0.0.2",
+   "version": "0.0.3",
    "description": "Copy delta between two directories",
    "main": "lib/index.js",
    "preferGlobal": true,
@@ -24,6 +24,7 @@
    },
    "homepage": "https://github.com/AntoRin/copydelta#readme",
    "dependencies": {
+      "chalk": "^4.1.2",
       "minimist": "^1.2.5",
       "recursive-copy": "^2.0.13"
    },

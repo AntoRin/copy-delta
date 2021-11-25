@@ -1,4 +1,4 @@
-# Welcome to copydelta 👋
+# copydelta
 
 [![Version](https://img.shields.io/npm/v/copydelta.svg)](https://www.npmjs.com/package/copydelta)
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/AntoRin/copydelta#readme)
@@ -16,6 +16,8 @@ npm install -g copydelta
 ```
 
 ## Usage
+
+copyd (<src_path>... | --src=src_path | -s src_path) (--dest=dest_path | -d dest_path | dest_path)
 
 ```sh
 copyd src-dir1 src-dir2 dest-dir
