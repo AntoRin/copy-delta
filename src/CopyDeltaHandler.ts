@@ -5,24 +5,22 @@ import { Options } from "./interfaces/Options";
 import chalk from "chalk";
 
 export class CopyDeltaHandler {
-   public srcPath: string;
-   public destPath: string;
-   public verbose: boolean;
-   public exclusions: string[];
+   private _config: Options;
 
-   constructor({ srcPath, destPath, verbose, exclusions }: Options) {
-      this.srcPath = srcPath;
-      this.destPath = destPath;
-      this.verbose = verbose || true;
-      this.exclusions = exclusions || [];
+   constructor({ verbose, exclusions, dryRun }: Options) {
+      this._config = {
+         dryRun: !!dryRun,
+         verbose: !!dryRun ? true : !!verbose,
+         exclusions: exclusions || [],
+      };
    }
 
-   init(): void {
+   init(srcPath: string, destPath: string): void {
       try {
-         if (!this.srcPath || !this.destPath) {
+         if (!srcPath || !destPath) {
             throw new Error("Required src and dest paths");
          }
-         this.copyDelta(this.srcPath, this.destPath);
+         this.copyDelta(srcPath, destPath);
       } catch (error) {
          console.log(error);
          process.exit(1);
@@ -30,15 +28,16 @@ export class CopyDeltaHandler {
    }
 
    async copyR(src: string, dest: string): Promise<void> {
-      await copy(src, dest);
-      if (this.verbose) console.log(`${chalk.blue(src)} ${chalk.cyanBright("->")} ${chalk.green(dest)}`);
+      if (!this._config.dryRun) await copy(src, dest);
+
+      if (this._config.verbose) console.log(`${chalk.blue(src)} ${chalk.cyanBright("->")} ${chalk.green(dest)}`);
    }
 
    async copyDelta(currentSrcPath: string, currentDestPath: string): Promise<void> {
       try {
          const isExcludedPath =
-            this.exclusions.includes(path.basename(currentSrcPath)) ||
-            this.exclusions.includes(path.extname(path.basename(currentSrcPath)));
+            this._config.exclusions.includes(path.basename(currentSrcPath)) ||
+            this._config.exclusions.includes(path.extname(path.basename(currentSrcPath)));
 
          if (isExcludedPath) return;
 
@@ -58,7 +57,7 @@ export class CopyDeltaHandler {
 
             if (!existsSync(srcItemPath)) continue;
 
-            const isExcludedItem = this.exclusions.includes(item) || this.exclusions.includes(path.extname(item));
+            const isExcludedItem = this._config.exclusions.includes(item) || this._config.exclusions.includes(path.extname(item));
 
             if (!existsSync(destItemPath) && !isExcludedItem) {
                await this.copyR(srcItemPath, destItemPath);
