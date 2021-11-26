@@ -1,6 +1,6 @@
 {
    "name": "copydelta",
-   "version": "0.0.3",
+   "version": "0.0.4",
    "description": "Copy delta between two directories",
    "main": "lib/index.js",
    "preferGlobal": true,

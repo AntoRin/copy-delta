@@ -36,6 +36,12 @@ export class CopyDeltaHandler {
 
    async copyDelta(currentSrcPath: string, currentDestPath: string): Promise<void> {
       try {
+         const isExcludedPath =
+            this.exclusions.includes(path.basename(currentSrcPath)) ||
+            this.exclusions.includes(path.extname(path.basename(currentSrcPath)));
+
+         if (isExcludedPath) return;
+
          let directoryContents: string[] = [];
 
          const pathStat = statSync(currentSrcPath);
@@ -52,9 +58,9 @@ export class CopyDeltaHandler {
 
             if (!existsSync(srcItemPath)) continue;
 
-            const isExcluded = this.exclusions.includes(item) || this.exclusions.includes(path.extname(item));
+            const isExcludedItem = this.exclusions.includes(item) || this.exclusions.includes(path.extname(item));
 
-            if (!existsSync(destItemPath) && !isExcluded) {
+            if (!existsSync(destItemPath) && !isExcludedItem) {
                await this.copyR(srcItemPath, destItemPath);
             } else {
                await this.copyDelta(srcItemPath, destItemPath);
