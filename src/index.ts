@@ -5,32 +5,40 @@ import { displayHelp } from "./help";
 
 const pkg: any = require("../package.json");
 
-export function main(commandLineArgs: any[]) {
+export function main(commandLineArgs: string[]) {
    try {
-      const parsedArgs: ParsedArgs = minimist(commandLineArgs);
+      const parsedArgs: ParsedArgs = minimist(commandLineArgs, {
+         boolean: ["dry-run", "verbose", "version", "help"],
+         alias: {
+            v: "version",
+            V: "verbose",
+            D: "dry-run",
+            h: "help",
+            s: "src",
+            d: "dest",
+            e: "exclude",
+         },
+      });
 
-      if (parsedArgs.help || parsedArgs.h) {
+      if (parsedArgs.help) {
          return displayHelp();
       }
 
-      if (parsedArgs.version || parsedArgs.v) {
+      if (parsedArgs.version) {
          return console.log(pkg.version);
       }
 
       const params = [...parsedArgs._];
 
-      const destPath = path.resolve(parsedArgs.d || parsedArgs.dest || params.splice(-1)[0]);
+      const destPath = path.resolve(parsedArgs.dest || params.splice(-1)[0]);
 
-      const srcPaths = [
-         ...params.map((p: string) => path.resolve(p)),
-         ...(parsedArgs.src || parsedArgs.s ? [path.resolve(parsedArgs.src || parsedArgs.s)] : []),
-      ];
+      const srcPaths = [...params.map((p: string) => path.resolve(p)), ...(parsedArgs.src ? [path.resolve(parsedArgs.src)] : [])];
 
-      const verbose = parsedArgs.verbose || parsedArgs.V;
+      const verbose = parsedArgs.verbose;
 
-      const dryRun = parsedArgs["dry-run"] || parsedArgs.D;
+      const dryRun = parsedArgs["dry-run"];
 
-      const exclusions = parsedArgs.exclude || parsedArgs.e ? ((parsedArgs.exclude || parsedArgs.e) as string).split(",") : [];
+      const exclusions = parsedArgs.exclude ? (parsedArgs.exclude as string).split(",") : [];
 
       const copyDeltaHandler: CopyDeltaHandler = new CopyDeltaHandler({ verbose, exclusions, dryRun });
 

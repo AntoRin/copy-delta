@@ -1,6 +1,6 @@
 {
    "name": "copydelta",
-   "version": "0.0.5",
+   "version": "0.0.6",
    "description": "Copy delta between two directories",
    "main": "lib/index.js",
    "preferGlobal": true,
@@ -11,6 +11,7 @@
    },
    "scripts": {
       "build": "rm -rf lib && tsc",
+      "watch": "rm -rf lib && tsc -w",
       "prepublishOnly": "npm run build"
    },
    "repository": {
